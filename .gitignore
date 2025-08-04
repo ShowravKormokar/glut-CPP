@@ -1,3 +1,14 @@
-.exe
+# Compiled object files
+*.o
+*.obj
+
+# Compiled binary files
+*.exe
+*.out
+*.app
+
+#Testing file
 test.cpp
-.png
+
+#Assets
+*.png
