@@ -15,23 +15,53 @@ void BL(int x0, int y0, int x1, int y1)
     if (x0 > x1 || y0 > y1)
         swap(x0, x1), swap(y0, y1);
 
-    int dx = x1 - x0;
-    int dy = y1 - y0;
-    int x = x0, y = y0;
-    int p = 2 * dy - dx;
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    float m = dy / (float)dx;
 
-    while (x <= x1)
+    int x = x0, y = y0;
+
+    int xInc = (x1 >= x0) ? 1 : -1;
+    int yInc = (y1 >= y0) ? 1 : -1;
+
+    if (m < 1)
     {
-        plotPixel(x, y);
-        x++;
-        if (p < 0)
+        // Initial Decision Parameter
+        int p = 2 * dy - dx;
+
+        while (x <= x1)
         {
-            p += 2 * dy;
+            plotPixel(x, y);
+            x += xInc;
+            if (p < 0)
+            {
+                p += 2 * dy;
+            }
+            else
+            {
+                y += yInc;
+                p += 2 * dy - 2 * dx;
+            }
         }
-        else
+    }
+    else
+    {
+        // Initial Decision Parameter
+        int p = 2 * dx - dy;
+
+        while (x <= x1)
         {
-            y++;
-            p += 2 * dy - 2 * dx;
+            plotPixel(x, y);
+            y += yInc;
+            if (p < 0)
+            {
+                p += 2 * dx;
+            }
+            else
+            {
+                x += xInc;
+                p += 2 * dx - 2 * dy;
+            }
         }
     }
 }
@@ -42,18 +72,18 @@ void display()
     glColor3f(1, 1, 1);
 
     glBegin(GL_LINES);
-    glVertex2f(0.0, 100.0);
-    glVertex2f(0.0, -100.0);
-    glVertex2f(100.0, 0.0);
-    glVertex2f(-100.0, 0.0);
+    glVertex2f(0.0, 500.0);
+    glVertex2f(0.0, -500.0);
+    glVertex2f(500.0, 0.0);
+    glVertex2f(-500.0, 0.0);
     glEnd();
 
-    glPointSize(2);
+    glPointSize(3);
     // Hour Glass
-    BL(5, 5, 15, 5);
-    BL(5, 20, 15, 20);
-    BL(5, 5, 15, 20);
-    BL(15, 5, 5, 20);
+    BL(50, 50, 150, 50);
+    BL(50, 200, 150, 200);
+    BL(50, 50, 150, 200);
+    BL(150, 50, 50, 200);
 
     glFlush();
 }
@@ -69,7 +99,7 @@ int main(int argc, char **argv)
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-50.0, 50.0, -50.0, 50.0); // Set coordinate system
+    gluOrtho2D(-500.0, 500.0, -500.0, 500.0); // Set coordinate system
 
     glutDisplayFunc(display); // Register display callback
     glutMainLoop();           // Enter the GLUT event loop
