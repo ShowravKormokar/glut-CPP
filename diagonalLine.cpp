@@ -1,12 +1,10 @@
-/*The screen coordinates of the points on a Vertical
-Line are obtained by keeping the value of x constant and repeatedly incrementing the y
-value by one unit.*/
+// Draw diagonal line
 #include <bits/stdc++.h>
 #include <GL/glut.h>
 #include <windows.h>
 using namespace std;
 
-// Vertical Line Algo
+// Diagonal Line Algo
 void DL(int x0, int y0, int x1, int y1)
 {
     float m = (y1 - y0) / (float)(x1 - x0);
@@ -60,7 +58,7 @@ void display()
 
     glPointSize(4);
 
-    // Vertical Line
+    // Diagonal Line
     DL(100, 300, 300, 100); // for m=-1
     DL(100, 100, 300, 300); // for m==1
 
