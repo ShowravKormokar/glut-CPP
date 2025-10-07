@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 #include <GL/glut.h>
-#include <windows.h>
 using namespace std;
 
 void plotPixel(int x, int y)
@@ -12,57 +11,39 @@ void plotPixel(int x, int y)
 
 void BL(int x0, int y0, int x1, int y1)
 {
-    if (x0 > x1 || y0 > y1)
-        swap(x0, x1), swap(y0, y1);
-
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
-    float m = dy / (float)dx;
+    int x = x0;
+    int y = y0;
 
-    int x = x0, y = y0;
+    int sx = (x1 > x0) ? 1 : -1;
+    int sy = (y1 > y0) ? 1 : -1;
 
-    int xInc = (x1 >= x0) ? 1 : -1;
-    int yInc = (y1 >= y0) ? 1 : -1;
+    bool steep = dy > dx;
 
-    if (m < 1)
+    if (steep)
+        swap(dx, dy);
+
+    int p = 2 * dy - dx;
+
+    for (int i = 0; i <= dx; i++)
     {
-        // Initial Decision Parameter
-        int p = 2 * dy - dx;
-
-        while (x <= x1)
+        plotPixel(x, y);
+        if (p >= 0)
         {
-            plotPixel(x, y);
-            x += xInc;
-            if (p < 0)
-            {
-                p += 2 * dy;
-            }
+            if (steep)
+                x += sx;
             else
-            {
-                y += yInc;
-                p += 2 * dy - 2 * dx;
-            }
+                y += sy;
+            p -= 2 * dx;
         }
-    }
-    else
-    {
-        // Initial Decision Parameter
-        int p = 2 * dx - dy;
 
-        while (x <= x1)
-        {
-            plotPixel(x, y);
-            y += yInc;
-            if (p < 0)
-            {
-                p += 2 * dx;
-            }
-            else
-            {
-                x += xInc;
-                p += 2 * dx - 2 * dy;
-            }
-        }
+        if (steep)
+            y += sy;
+        else
+            x += sx;
+
+        p += 2 * dy;
     }
 }
 
@@ -78,24 +59,23 @@ void display()
     glVertex2f(-500.0, 0.0);
     glEnd();
 
-    glPointSize(3);
-    // Hour Glass
-    BL(50, 50, 150, 50);
-    BL(50, 200, 150, 200);
-    BL(50, 50, 150, 200);
-    BL(150, 50, 50, 200);
+    // Letter S
+    BL(100, 200, 200, 200); // Top horizontal
+    BL(100, 200, 100, 150); // Left vertical (upper)
+    BL(100, 150, 200, 150); // Middle horizontal
+    BL(200, 150, 200, 100); // Right vertical (lower)
+    BL(200, 100, 100, 100); // Bottom horizontal
 
     glFlush();
 }
 
-// Main function
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);                       // Initialize GLUT
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); // Set display mode
     glutInitWindowSize(500, 500);                // Set window size
     glutInitWindowPosition(100, 100);            // Set window position
-    glutCreateWindow("DDA");                     // Create window with title
+    glutCreateWindow("Bresenham Algo.");         // Create window with title
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Set background color to black
     glMatrixMode(GL_PROJECTION);
