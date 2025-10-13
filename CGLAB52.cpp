@@ -1,33 +1,34 @@
 // Mid-point Circle Drawing Algorithm
-// Direct circle drawing algorithm
 #include <bits/stdc++.h>
 #include <GL/glut.h>
 #include <windows.h>
 using namespace std;
 
-void plotPixel(int x, int y)
-{
-    glColor3f(0, 1, 1); // Color Blue
-    glBegin(GL_POINTS);
-    glVertex2i(x, y);
-    glEnd();
-}
+// void plotPixel(int x, int y)
+// {
+//     glColor3f(0, 1, 1); // Color Blue
+//     glBegin(GL_POINTS);
+//     glVertex2i(x, y);
+//     glEnd();
+// }
 
 void MCA(int r)
 {
+    glColor3f(0, 1, 1); // Color Blue
+    glBegin(GL_POINTS);
     int x = 0, y = r;
     int p = 1 - r;
 
     while (x < y)
     {
-        plotPixel(x, y);
-        plotPixel(y, x);
-        plotPixel(y, -x);
-        plotPixel(x, -y);
-        plotPixel(-x, -y);
-        plotPixel(-y, -x);
-        plotPixel(-y, x);
-        plotPixel(-x, y);
+        glVertex2i(x, y);
+        glVertex2i(y, x);
+        glVertex2i(y, -x);
+        glVertex2i(x, -y);
+        glVertex2i(-x, -y);
+        glVertex2i(-y, -x);
+        glVertex2i(-y, x);
+        glVertex2i(-x, y);
 
         if (p >= 0)
         {
@@ -40,6 +41,7 @@ void MCA(int r)
             x++;
         }
     }
+    glEnd();
 }
 
 void display()
