@@ -4,32 +4,26 @@
 #include <windows.h>
 using namespace std;
 
-void plotPixel(int x, int y)
+void DCA(int r)
 {
     glColor3f(0, 0, 1); // Color Blue
     glBegin(GL_POINTS);
-    glVertex2i(x, y);
-    glEnd();
-}
-
-void DCA(int r)
-{
     int x = 0;
-    // y=r;
     while (x <= r)
     {
         int y = sqrt(pow(r, 2) - pow(x, 2));
-        plotPixel(x, y);
-        plotPixel(x, -y);
-        plotPixel(-x, -y);
-        plotPixel(-x, y);
+        glVertex2i(x, y);
+        glVertex2i(x, -y);
+        glVertex2i(-x, -y);
+        glVertex2i(-x, y);
         x++;
     }
+    glEnd();
 }
 
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1, 1, 1);
 
     // Coordinate
@@ -42,8 +36,7 @@ void display()
 
     glPointSize(4);
 
-    // Call the function
-    DCA(200);
+    DCA(200); // Call The Function
 
     glFlush();
 }
@@ -51,18 +44,17 @@ void display()
 // Main function
 int main(int argc, char **argv)
 {
-    glutInit(&argc, argv);                       // Initialize GLUT
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); // Set display mode
-    glutInitWindowSize(500, 500);                // Set window size
-    glutInitWindowPosition(100, 100);            // Set window position
-    glutCreateWindow("DCA");                     // Create window with title
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("DCA");
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);     // Set background color to black
-    glMatrixMode(GL_PROJECTION);              // define scene by using projection
-    gluOrtho2D(-500.0, 500.0, -500.0, 500.0); // Set coordinate system
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(-500.0, 500.0, -500.0, 500.0);
 
-    glutDisplayFunc(display); // Register display callback
-    glutMainLoop();           // Enter the GLUT event loop
-
+    glutDisplayFunc(display);
+    glutMainLoop();
     return 0;
 }
