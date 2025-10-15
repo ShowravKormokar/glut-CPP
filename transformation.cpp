@@ -124,6 +124,8 @@ void display()
     translate(100, 50);
     // scale(1.5, 1.5);
     // rotate(180);
+    // reflectX();
+    // reflectY();
     // shear(0.3, 0.1);
 
     // Draw transformed triangle (red)
