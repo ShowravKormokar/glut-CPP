@@ -1,19 +1,19 @@
-// Performing 2D transformations 
+// Performing 2D transformations
 #include <bits/stdc++.h>
 #include <GL/glut.h>
 #include <windows.h>
 using namespace std;
 
 // ==================== GLOBAL VARIABLES ====================
-float triangle[3][3] = {
-    {100, 100, 1},
-    {200, 100, 1},
-    {150, 200, 1}}; // Triangle vertices (homogeneous coordinates)
+float triangle[3][2] = {
+    {100, 100},
+    {200, 100},
+    {150, 200}};
 
-float transformed[3][3]; // Store transformed triangle
+float transformed[3][2]; // Store transformed triangle
 
-// ==================== HELPER FUNCTIONS ====================
-void drawTriangle(float t[3][3])
+// Draw Triangle
+void drawTriangle(float t[3][2])
 {
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < 3; i++)
@@ -21,42 +21,38 @@ void drawTriangle(float t[3][3])
     glEnd();
 }
 
-void copyMatrix(float a[3][3], float b[3][3])
+void copyMatrix(float a[3][2], float b[3][2])
 {
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
             a[i][j] = b[i][j];
 }
 
-// ==================== TRANSFORMATION FUNCTIONS ====================
-
-// 1️⃣ Translation
+// Translation
 void translate(float tx, float ty)
 {
     for (int i = 0; i < 3; i++)
     {
         transformed[i][0] = triangle[i][0] + tx; // newX = oldX + tx
         transformed[i][1] = triangle[i][1] + ty; // newY = oldY + ty
-        transformed[i][2] = 1;                   // Triangle vertices (homogeneous coordinates)
     }
 
     copyMatrix(triangle, transformed);
 }
 
-// 2️⃣ Scaling
+// Scaling
 void scale(float sx, float sy)
 {
     for (int i = 0; i < 3; i++)
     {
         transformed[i][0] = triangle[i][0] * sx; // newX = oldX * sx
         transformed[i][1] = triangle[i][1] * sy; // newY = oldY * sy
-        transformed[i][2] = 1;                   // Triangle vertices (homogeneous coordinates)
     }
 
     copyMatrix(triangle, transformed);
 }
 
-// 3️⃣ Rotation (counterclockwise)
+// Rotation (counterclockwise)
 void rotate(float angle)
 {
     float rad = angle * 3.14159 / 180.0;
@@ -64,26 +60,47 @@ void rotate(float angle)
     {
         transformed[i][0] = triangle[i][0] * (cos(rad)) - triangle[i][1] * sin(rad);
         transformed[i][1] = triangle[i][0] * sin(rad) + triangle[i][1] * cos(rad);
-        transformed[i][2] = 1;
     }
 
     copyMatrix(triangle, transformed);
 }
 
-// 4️⃣ Shearing
-void shear(float shx, float shy)
+// Reflection about X-axis
+void reflectX()
 {
     for (int i = 0; i < 3; i++)
     {
-        transformed[i][0] = triangle[i][0] + shx * triangle[i][1]; // x-shear
-        transformed[i][1] = triangle[i][1] + shy * triangle[i][0]; // y-shear
-        transformed[i][2] = 1;
+        transformed[i][0] = triangle[i][0];  // x' = x
+        transformed[i][1] = -triangle[i][1]; // y' = -y
     }
 
     copyMatrix(triangle, transformed);
 }
 
-// ==================== DISPLAY FUNCTION ====================
+// Reflection about Y-axis
+void reflectY()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        transformed[i][0] = -triangle[i][0]; // x' = -x
+        transformed[i][1] = triangle[i][1];  // y' = y
+    }
+
+    copyMatrix(triangle, transformed);
+}
+
+// Shearing
+void shear(float shr)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        transformed[i][0] = triangle[i][0] + shr * triangle[i][1]; // x-shear
+        transformed[i][1] = triangle[i][1] + shr * triangle[i][0]; // y-shear
+    }
+
+    copyMatrix(triangle, transformed);
+}
+
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -116,7 +133,6 @@ void display()
     glFlush();
 }
 
-// ==================== MAIN FUNCTION ====================
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
