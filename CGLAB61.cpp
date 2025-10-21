@@ -3,15 +3,12 @@
 #include <windows.h>
 using namespace std;
 
-// ==================== GLOBAL VARIABLES ====================
 float triangle[3][2] = {
     {10, 10},
     {20, 10},
     {15, 20}};
 
 float transformed[3][2]; // Store transformed triangle
-
-// ==================== FUNCTIONS ====================
 
 // Draw Triangle
 void drawTriangle(float t[3][2])
@@ -70,7 +67,6 @@ void reflectX()
     }
     glutPostRedisplay();
 }
-
 // Reflection about Y-axis
 void reflectY()
 {
@@ -81,7 +77,6 @@ void reflectY()
     }
     glutPostRedisplay();
 }
-
 // Shearing about X-axis
 void shearX(float shx)
 {
@@ -91,7 +86,6 @@ void shearX(float shx)
         transformed[i][1] = triangle[i][1]; // Y remains unchanged
     }
 }
-
 // Shearing about Y-axis
 void shearY(float shy)
 {
@@ -101,13 +95,11 @@ void shearY(float shy)
         transformed[i][1] = triangle[i][1] + shy * triangle[i][0];
     }
 }
-
 // Display
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1, 1, 1);
-
     // Draw coordinate axes
     glBegin(GL_LINES);
     glVertex2f(0.0, 100.0);
@@ -115,15 +107,12 @@ void display()
     glVertex2f(100.0, 0.0);
     glVertex2f(-100.0, 0.0);
     glEnd();
-
     // Draw current triangle
     glColor3f(1, 1, 0);
     drawTriangle(triangle);
-
     // Draw transformed triangle (red)
     glColor3f(1, 0, 0);
     drawTriangle(transformed);
-
     glFlush();
 }
 
@@ -157,7 +146,7 @@ int main(int argc, char **argv)
 
     if (choice == 0)
         return 0;
-
+        
     // Apply chosen transformation with static values
     switch (choice)
     {
@@ -165,44 +154,36 @@ int main(int argc, char **argv)
         cout << "Applying Translation...\n";
         translate(2, 3);
         break;
-
     case 2:
         cout << "Applying Scaling...\n";
         scale(2, 2);
         scale(0.5, 0.5);
         break;
-
     case 3:
         cout << "Applying Rotation...\n";
         rotateTriangle(45);
         break;
-
     case 4:
         cout << "Applying Reflection about X-axis...\n";
         reflectX();
         break;
-
     case 5:
         cout << "Applying Reflection about Y-axis...\n";
         reflectY();
         break;
-
     case 6:
         cout << "Applying Shearing...\n";
         shearX(2);
         break;
-
     case 7:
         cout << "Applying Shearing...\n";
         shearY(2);
         break;
-
     default:
         cout << "Invalid choice! Exiting...\n";
         return 0;
     }
     glutDisplayFunc(display);
-    glutMainLoop(); // Start rendering only after transformation is selected
-
+    glutMainLoop();
     return 0;
 }
