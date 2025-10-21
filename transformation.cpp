@@ -6,9 +6,9 @@ using namespace std;
 
 // ==================== GLOBAL VARIABLES ====================
 float triangle[3][2] = {
-    {100, 100},
-    {200, 100},
-    {150, 200}};
+    {10, 10},
+    {20, 10},
+    {15, 20}};
 
 float transformed[3][2]; // Store transformed triangle
 
@@ -108,10 +108,10 @@ void display()
 
     // Draw coordinate axes
     glBegin(GL_LINES);
-    glVertex2f(0.0, 500.0);
-    glVertex2f(0.0, -500.0);
-    glVertex2f(500.0, 0.0);
-    glVertex2f(-500.0, 0.0);
+    glVertex2f(0.0, 50.0);
+    glVertex2f(0.0, -50.0);
+    glVertex2f(50.0, 0.0);
+    glVertex2f(-50.0, 0.0);
     glEnd();
 
     glPointSize(4);
@@ -121,12 +121,13 @@ void display()
     drawTriangle(triangle);
 
     // Perform transformations (Call All function here)
-    translate(100, 50);
-    // scale(1.5, 1.5);
-    // rotate(180);
+    translate(2, 3);
+    // scale(2, 2);
+    // scale(0.5, 0.5);
+    // rotate(45);
     // reflectX();
     // reflectY();
-    // shear(0.3, 0.1);
+    // shear(2);
 
     // Draw transformed triangle (red)
     glColor3f(1, 0, 0);
@@ -139,13 +140,13 @@ int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(800, 800);
+    glutInitWindowSize(500, 500);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("2D Transformations - Triangle");
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-500.0, 500.0, -500.0, 500.0);
+    gluOrtho2D(-50.0, 50.0, -50.0, 50.0);
 
     glutDisplayFunc(display);
     glutMainLoop();
