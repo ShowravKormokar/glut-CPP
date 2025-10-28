@@ -8,7 +8,7 @@ float speed = 2;    // Move speed (pixels per frame)
 // Function to draw the square
 void drawSquare(float x, float y)
 {
-    glBegin(GL_POLYGON);
+    glBegin(GL_QUADS); // Use GL_QUADS
     glVertex2f(x, y);
     glVertex2f(x + 100, y);
     glVertex2f(x + 100, y + 100);
